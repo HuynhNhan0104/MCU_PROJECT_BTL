@@ -1,0 +1,2 @@
+traffic_led.c:10:6:turn_on_traffic_led_1	8	static
+traffic_led.c:34:6:turn_on_traffic_led_2	8	static
