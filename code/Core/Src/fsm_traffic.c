@@ -9,6 +9,7 @@
 #include "fsm_traffic.h"
 
 
+
 void fsm_traffic_1_run(){
 	switch(state_led_traffic_1){
 
@@ -120,8 +121,7 @@ void fsm_system_run(){
 		case MODIFY_RED_MODE:
 			//todo
 
-
-
+			blinking_led_traffic(state_led_traffic_1);
 
 			//button 1 is pressed, buffer_duration_time increase 1, if buffer exceed 99, buffer = 0;
 			if(is_pressed(1)){
@@ -144,6 +144,9 @@ void fsm_system_run(){
 			}
 		break;
 		case MODIFY_YELLOW_MODE:
+
+			blinking_led_traffic(state_led_traffic_1);
+
 			//button 1 is pressed, buffer_duration_time increase 1, if buffer exceed 99, buffer = 0;
 			if(is_pressed(1)){
 				buffer_duration_time = (buffer_duration_time +1000)% (100*1000);
@@ -166,6 +169,7 @@ void fsm_system_run(){
 			}
 		break;
 		case MODIFY_GREEN_MODE:
+			blinking_led_traffic(state_led_traffic_1);
 			//button 1 is pressed, buffer_duration_time increase 1, if buffer exceed 99, buffer = 0;
 			if(is_pressed(1)){
 				buffer_duration_time = (buffer_duration_time +1000)% (100*1000);

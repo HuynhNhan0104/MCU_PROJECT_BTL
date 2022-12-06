@@ -7,6 +7,9 @@
 
 #include "traffic_led.h"
 
+int blinking_at_on = 0;
+
+
 void turn_on_traffic_led_1(){
 	switch(state_led_traffic_1){
 		case RED:
@@ -53,3 +56,22 @@ void turn_on_traffic_led_2(){
 		break;
 	}
 }
+
+void blinking_led_traffic(int state){
+	turn_on_traffic_led_1();
+	turn_on_traffic_led_2();
+	if(is_timer_timeout( 6 )){
+		if(blinking_at_on){
+			state_led_traffic_1 = state;
+			state_led_traffic_2 = state;
+
+		}
+		else{
+			state_led_traffic_1 = OFF;
+			state_led_traffic_2 = OFF;
+		}
+		blinking_at_on = 1 - blinking_at_on;
+	}
+}
+
+
