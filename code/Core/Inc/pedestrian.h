@@ -17,7 +17,7 @@
 
 
 extern int freq;
-
+extern int buzzer_flag;
 
 void turn_on_buzzer();
 void turn_off_buzzer();

@@ -5,4 +5,4 @@ main.c:218:13:MX_TIM3_Init	64	static
 main.c:277:13:MX_GPIO_Init	32	static
 main.c:320:6:HAL_TIM_PeriodElapsedCallback	16	static
 main.c:326:6:control_buzzer	4	static
-main.c:336:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:341:6:Error_Handler	4	static,ignoring_inline_asm

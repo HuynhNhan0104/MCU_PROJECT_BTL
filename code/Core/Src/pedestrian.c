@@ -7,15 +7,16 @@
 
 #include "pedestrian.h"
 int state_of_pedestrian = OFF_PEDESTRIAN;
-int freq = 1000;
-
+int freq = 0;
+int buzzer_flag = 0;
 void turn_on_buzzer(){
-	freq = 700;
+	buzzer_flag = 1;
 }
 
 
 void turn_off_buzzer(){
-	freq = 1000;
+	freq = 0;
+	buzzer_flag = 0;
 }
 
 

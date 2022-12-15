@@ -324,8 +324,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 }
 
 void control_buzzer(){
-		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,freq);
-		freq += 1;
+	if(buzzer_flag == 1){
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1, 1000 - freq);
+		freq  += 1;
+	}
+	else{
+		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1, 1000);
+	}
 }
 /* USER CODE END 4 */
 
