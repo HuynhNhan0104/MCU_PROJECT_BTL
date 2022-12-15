@@ -27,8 +27,17 @@ extern int mode;
 
 
 //Timer
-#define TIME_CYCLE 							10 //(10ms)
-#define NUMBER_OF_TIMER					15
+#define TIME_CYCLE 														10 //(10ms)
+#define NUMBER_OF_TIMER												15
+
+#define TIMER_BUTTON_0												0
+#define TIMER_BUTTON_1												1
+#define TIMER_BUTTON_2												2
+#define TIMER_BUTTON_3												3
+
+
+
+
 
 //SINGLE LED OF TRAFFIC
 
@@ -51,11 +60,19 @@ extern int state_led_traffic_2;
 #define BUTTON_PRESSED																				21
 #define BUTTON_PRESSED_3S																			22
 
+#define BUTTON_0																							0
+#define BUTTON_1																							1
+#define BUTTON_2																							2
+#define BUTTON_3																							3
+// PEDESTRIAN
+#define OFF_PEDESTRIAN																						30
+#define RED_PEDESTRIAN																					31
+#define GREEN_PEDESTRIAN 																				32
+#define YELLOW_PEDESTRIAN																				33
 
 
 
-
-
+extern int cycle_buzzer;
 
 
 

@@ -13,6 +13,7 @@
 //timer 4 for traffic led 1
 //timer 5 for traffic led 2
 //timer 6 for blinking 4 led of system
+//timer 7 for pedestrian
 extern int timer_counter[NUMBER_OF_TIMER];
 extern int timer_flag[NUMBER_OF_TIMER];
 

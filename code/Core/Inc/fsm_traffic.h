@@ -12,7 +12,7 @@
 #include "timer.h"
 #include "button.h"
 #include "traffic_led.h"
-
+#include "led_7_seg.h"
 
 
 void fsm_traffic_1_run();

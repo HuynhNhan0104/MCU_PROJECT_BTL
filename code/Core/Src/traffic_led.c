@@ -7,11 +7,11 @@
 
 #include "traffic_led.h"
 
-int blinking_at_on = 0;
+int is_on = 0;
 
 
-void turn_on_traffic_led_1(){
-	switch(state_led_traffic_1){
+void turn_on_traffic_led_1(int state){
+	switch(state){
 		case RED:
 			HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, SET);
 			HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, RESET);
@@ -24,53 +24,59 @@ void turn_on_traffic_led_1(){
 			HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, RESET);
 			HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, SET);
 		break;
-		case OFF:
-			HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, RESET);
-			HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, RESET);
-		break;
 		default:
 		break;
 	}
 }
 
+void turn_off_traffic_led_1(){
+	HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, RESET);
+	HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, RESET);
+}
 
-void turn_on_traffic_led_2(){
-	switch(state_led_traffic_2){
+void turn_on_traffic_led_2(int state){
+	switch(state){
 		case RED:
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, SET);
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, RESET);
+			HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, SET);
+			HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, RESET);
 		break;
 		case YELLOW:
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, SET);
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, SET);
+			HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, SET);
+			HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, SET);
 		break;
 		case GREEN:
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, RESET);
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, SET);
+			HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, RESET);
+			HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, SET);
 		break;
 		case OFF:
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, RESET);
-			HAL_GPIO_WritePin(D4_GPIO_Port, D5_Pin, RESET);
+			HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, RESET);
+			HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, RESET);
 		break;
 		default:
 		break;
 	}
 }
+void turn_off_traffic_led_2(){
+	HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, RESET);
+	HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, RESET);
+}
+
+
+
 
 void blinking_led_traffic(int state){
-	turn_on_traffic_led_1();
-	turn_on_traffic_led_2();
 	if(is_timer_timeout( 6 )){
-		if(blinking_at_on){
-			state_led_traffic_1 = state;
-			state_led_traffic_2 = state;
-
+		if(is_on){
+			turn_on_traffic_led_1(state);
+			turn_on_traffic_led_2(state);
+			is_on = 0;
 		}
 		else{
-			state_led_traffic_1 = OFF;
-			state_led_traffic_2 = OFF;
+			turn_off_traffic_led_1();
+			turn_off_traffic_led_2();
+			is_on = 1;
 		}
-		blinking_at_on = 1 - blinking_at_on;
+		set_timer(6, 500);
 	}
 }
 
