@@ -35,7 +35,12 @@ extern int mode;
 #define TIMER_BUTTON_2												2
 #define TIMER_BUTTON_3												3
 
+#define TIMER_LED_TRAFFIC_1											4
+#define TIMER_LED_TRAFFIC_2											5
+#define TIMER_BLINKING_LED											6
 
+#define TIMER_PEDESTRIAN												7
+#define TIMER_BUZZER													8
 
 
 

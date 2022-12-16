@@ -18,6 +18,7 @@
 
 extern int freq;
 extern int buzzer_flag;
+extern int tik_tek;
 
 void turn_on_buzzer();
 void turn_off_buzzer();

@@ -15,10 +15,10 @@ void fsm_traffic_1_run(){
 			//TODO
 			//STATE STRANSION
 			// time out, RED-->GREEN
-			if(is_timer_timeout(4)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_1)){
 				state_led_traffic_1 =GREEN;
 				turn_on_traffic_led_1(state_led_traffic_1);
-				set_timer(4,duration_time_of_GREEN);
+				set_timer(TIMER_LED_TRAFFIC_1,duration_time_of_GREEN);
 			}
 		break;
 
@@ -26,10 +26,10 @@ void fsm_traffic_1_run(){
 			//TODO
 			//STATE STRANSION
 			// time out, YELLOW --> RED
-			if(is_timer_timeout(4)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_1)){
 				state_led_traffic_1 = RED;
 				turn_on_traffic_led_1(state_led_traffic_1);
-				set_timer(4,duration_time_of_RED);
+				set_timer(TIMER_LED_TRAFFIC_1,duration_time_of_RED);
 			}
 		break;
 
@@ -37,10 +37,10 @@ void fsm_traffic_1_run(){
 			//TODO
 			//STATE STRANSION
 			// timeout, GREEN-->YELLOW
-			if(is_timer_timeout(4)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_1)){
 				state_led_traffic_1 = YELLOW;
 				turn_on_traffic_led_1(state_led_traffic_1);
-				set_timer(4,duration_time_of_YELLOW);
+				set_timer(TIMER_LED_TRAFFIC_1,duration_time_of_YELLOW);
 			}
 		break;
 		default:
@@ -55,30 +55,30 @@ void fsm_traffic_2_run(){
 			//TODO
 			//STATE STRANSION
 			// time out, RED-->GREEN
-			if(is_timer_timeout(5)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_2)){
 				state_led_traffic_2 = GREEN;
 				turn_on_traffic_led_2(state_led_traffic_2);
-				set_timer(5,duration_time_of_GREEN);
+				set_timer(TIMER_LED_TRAFFIC_2,duration_time_of_GREEN);
 			}
 		break;
 		case YELLOW:
 			//TODO
 			//STATE STRANSION
 			// time out, YELLOW --> RED
-			if(is_timer_timeout(5)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_2)){
 				state_led_traffic_2 = RED;
 				turn_on_traffic_led_2(state_led_traffic_2);
-				set_timer(5,duration_time_of_RED);
+				set_timer(TIMER_LED_TRAFFIC_2,duration_time_of_RED);
 			}
 		break;
 		case GREEN:
 			//TODO
 			//STATE STRANSION
 			// timeout, GREEN-->YELLOW
-			if(is_timer_timeout(5)){
+			if(is_timer_timeout(TIMER_LED_TRAFFIC_2)){
 				state_led_traffic_2 = YELLOW;
 				turn_on_traffic_led_2(state_led_traffic_2);
-				set_timer(5,duration_time_of_YELLOW);
+				set_timer(TIMER_LED_TRAFFIC_2,duration_time_of_YELLOW);
 			}
 		break;
 		default:
@@ -96,11 +96,11 @@ void fsm_system_run(){
 			state_led_traffic_2 = GREEN;
 			turn_on_traffic_led_2(state_led_traffic_2);
 
-			set_timer(4, duration_time_of_RED);
-			set_timer(5, duration_time_of_GREEN);
+			set_timer(TIMER_LED_TRAFFIC_1, duration_time_of_RED);
+			set_timer(TIMER_LED_TRAFFIC_2, duration_time_of_GREEN);
 
-			update_buffer_high(get_time_of_counter(4));
-			update_buffer_low(get_time_of_counter(5));
+			update_buffer_high(get_time_of_counter(TIMER_LED_TRAFFIC_1));
+			update_buffer_low(get_time_of_counter(TIMER_LED_TRAFFIC_2));
 			//STATE STRANSITION
 			mode = NORMAL_MODE;
 		break;
@@ -108,21 +108,21 @@ void fsm_system_run(){
 			//TODO
 			fsm_traffic_1_run();
 			fsm_traffic_2_run();
-			update_buffer_high(get_time_of_counter(4));
-			update_buffer_low(get_time_of_counter(5));
+			update_buffer_high(get_time_of_counter(TIMER_LED_TRAFFIC_1));
+			update_buffer_low(get_time_of_counter(TIMER_LED_TRAFFIC_2));
 
 			//STATE STRANSITION
 			//button 1 is pressed,  NORMAl_MODE -> MODIFY_RED_MODE
 			if(is_pressed(BUTTON_1)){
-				clear_timer(4);
-				clear_timer(5);
+				clear_timer(TIMER_LED_TRAFFIC_1);
+				clear_timer(TIMER_LED_TRAFFIC_2);
 				state_led_traffic_1 = RED;
 				turn_on_traffic_led_1(state_led_traffic_1);
 				state_led_traffic_2 = RED;
 				turn_on_traffic_led_2(state_led_traffic_2);
 
 				is_on = 0;
-				set_timer(6, 500);
+				set_timer(TIMER_BLINKING_LED, 500);
 				buffer_duration_time = duration_time_of_RED;
 
 
@@ -156,7 +156,7 @@ void fsm_system_run(){
 				turn_on_traffic_led_2(state_led_traffic_2);
 
 				is_on = 0;
-				set_timer(6, 500);
+				set_timer(TIMER_BLINKING_LED, 500);
 				buffer_duration_time = duration_time_of_YELLOW;
 
 				update_buffer_high(2000);
@@ -187,7 +187,7 @@ void fsm_system_run(){
 				turn_on_traffic_led_2(state_led_traffic_2);
 
 				is_on = 0;
-				set_timer(6, 500);
+				set_timer(TIMER_BLINKING_LED, 500);
 				buffer_duration_time = duration_time_of_GREEN;
 
 				update_buffer_high(3000);
@@ -211,16 +211,15 @@ void fsm_system_run(){
 			//STATE STRANSITION
 			//button 1 is pressed, MODIFY_GREEN_MODE -> NORMAL_MODE
 			if(is_pressed(BUTTON_1)){
-				clear_timer(6);
+				clear_timer(TIMER_BLINKING_LED);
 				state_led_traffic_1 = RED;
 				turn_on_traffic_led_1(state_led_traffic_1);
 				state_led_traffic_2 = GREEN;
 				turn_on_traffic_led_2(state_led_traffic_2);
-				set_timer(4, duration_time_of_RED);
-				set_timer(5, duration_time_of_GREEN);
-				update_buffer_high(get_time_of_counter(4));
-				update_buffer_low(get_time_of_counter(5));
-
+				set_timer(TIMER_LED_TRAFFIC_1, duration_time_of_RED);
+				set_timer(TIMER_LED_TRAFFIC_2, duration_time_of_GREEN);
+				update_buffer_high(get_time_of_counter(TIMER_LED_TRAFFIC_1));
+				update_buffer_low(get_time_of_counter(TIMER_LED_TRAFFIC_2));
 				mode = NORMAL_MODE;
 			}
 		break;

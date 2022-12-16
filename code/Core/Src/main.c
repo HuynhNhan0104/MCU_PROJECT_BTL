@@ -116,6 +116,7 @@ mode = INIT_SYSTEM;
 	  fsm_for_button();
 	  fsm_system_run();
 	  fsm_pedestrian_run();
+	  control_buzzer();
 
 //	for(int i = 800; i <= 1000 ; i+=50){
 // 		  __HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,1000);
@@ -320,15 +321,28 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 	timer_run();
 	read_input();
-	control_buzzer();
-}
 
+}
+int buffer = 0;
 void control_buzzer(){
 	if(buzzer_flag == 1){
 		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1, 1000 - freq);
-		freq  += 1;
+		if(is_timer_timeout(TIMER_BUZZER)){
+			if(tik_tek){
+				 buffer = freq;
+				freq = 0;
+				tik_tek = 0;
+			}
+			else{
+				if(buffer <= 800) freq = buffer + 100;
+				else  freq  = buffer;
+				tik_tek = 1;
+			}
+			set_timer(TIMER_BUZZER, 500);
+		}
 	}
 	else{
+		buffer = 0;
 		__HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1, 1000);
 	}
 }

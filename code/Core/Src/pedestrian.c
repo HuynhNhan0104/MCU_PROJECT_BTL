@@ -9,14 +9,21 @@
 int state_of_pedestrian = OFF_PEDESTRIAN;
 int freq = 0;
 int buzzer_flag = 0;
+int safe_time = 3000;
+
+int tik_tek = 1;
+
 void turn_on_buzzer(){
+	freq = 200;
 	buzzer_flag = 1;
+	set_timer(TIMER_BUZZER, 500);
 }
 
 
 void turn_off_buzzer(){
 	freq = 0;
 	buzzer_flag = 0;
+	clear_timer(TIMER_BUZZER);
 }
 
 
@@ -52,13 +59,12 @@ void fsm_pedestrian_run(){
 
 		if(is_pressed( BUTTON_0 )){
 			if(mode == NORMAL_MODE){
-				set_timer( 7 ,duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
+				set_timer(TIMER_PEDESTRIAN ,duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
 				if(state_led_traffic_1 != RED){
 					state_of_pedestrian = RED_PEDESTRIAN;
 					turn_on_led_PED(RED);
-
 				}
-				else if(get_time_of_counter(4) <= 1000 && state_led_traffic_1 == RED){
+				else if(get_time_of_counter(TIMER_LED_TRAFFIC_1) <= safe_time && state_led_traffic_1 == RED){
 					state_of_pedestrian = RED_PEDESTRIAN;
 					turn_on_led_PED(RED);
 				}
@@ -74,28 +80,33 @@ void fsm_pedestrian_run(){
 			}
 		}
 
+		if(mode != NORMAL_MODE){
+			state_of_pedestrian = YELLOW_PEDESTRIAN;
+			turn_on_led_PED(YELLOW);
+		}
+
 	break;
 	case RED_PEDESTRIAN:
 
 		if(is_pressed( BUTTON_0 )){
-			set_timer( 7 ,  duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
+			set_timer( TIMER_PEDESTRIAN ,  duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
 		}
 
 
-		if(is_timer_timeout( 7 )){
+		if(is_timer_timeout( TIMER_PEDESTRIAN )){
 			turn_off_led_PED();
 			state_of_pedestrian = OFF_PEDESTRIAN;
 		}
 
 
-		if(get_time_of_counter(4) > 1000 && state_led_traffic_1 == RED){
+		if(get_time_of_counter(TIMER_LED_TRAFFIC_1) > safe_time && state_led_traffic_1 == RED){
 			turn_on_buzzer();
 			state_of_pedestrian = GREEN_PEDESTRIAN;
 			turn_on_led_PED(GREEN);
 		}
 
 		if(mode != NORMAL_MODE){
-			clear_timer( 7 );
+			clear_timer( TIMER_PEDESTRIAN );
 			turn_on_led_PED(YELLOW);
 			state_of_pedestrian = YELLOW_PEDESTRIAN;
 		}
@@ -105,15 +116,15 @@ void fsm_pedestrian_run(){
 	case GREEN_PEDESTRIAN:
 
 		if(is_pressed( BUTTON_0 )){
-			set_timer( 7 ,  duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
+			set_timer( TIMER_PEDESTRIAN ,  duration_time_of_RED + duration_time_of_YELLOW+ duration_time_of_GREEN);
 		}
-		if(is_timer_timeout( 7 )){
+		if(is_timer_timeout( TIMER_PEDESTRIAN )){
 			turn_off_buzzer();
 			turn_off_led_PED();
 			state_of_pedestrian = OFF_PEDESTRIAN;
 		}
 
-		if(get_time_of_counter(4) <= 1000 && state_led_traffic_1 == RED){
+		if(get_time_of_counter(TIMER_LED_TRAFFIC_1) <= safe_time && state_led_traffic_1 == RED){
 			turn_off_buzzer();
 			state_of_pedestrian = RED_PEDESTRIAN;
 			turn_on_led_PED(RED);
@@ -121,7 +132,7 @@ void fsm_pedestrian_run(){
 
 		if(mode != NORMAL_MODE){
 			turn_off_buzzer();
-			clear_timer( 7 );
+			clear_timer( TIMER_PEDESTRIAN );
 			turn_on_led_PED(YELLOW);
 			state_of_pedestrian = YELLOW_PEDESTRIAN;
 		}

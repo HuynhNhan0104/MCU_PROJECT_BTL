@@ -65,7 +65,7 @@ void turn_off_traffic_led_2(){
 
 
 void blinking_led_traffic(int state){
-	if(is_timer_timeout( 6 )){
+	if(is_timer_timeout( TIMER_BLINKING_LED )){
 		if(is_on){
 			turn_on_traffic_led_1(state);
 			turn_on_traffic_led_2(state);
@@ -76,7 +76,7 @@ void blinking_led_traffic(int state){
 			turn_off_traffic_led_2();
 			is_on = 1;
 		}
-		set_timer(6, 500);
+		set_timer(TIMER_BLINKING_LED, 500);
 	}
 }
 
