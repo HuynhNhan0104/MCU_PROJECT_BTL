@@ -116,7 +116,7 @@ mode = INIT_SYSTEM;
 	  fsm_for_button();
 	  fsm_system_run();
 	  fsm_pedestrian_run();
-	  control_buzzer();
+	 //control_buzzer();
 
 //	for(int i = 800; i <= 1000 ; i+=50){
 // 		  __HAL_TIM_SetCompare (&htim3,TIM_CHANNEL_1,1000);
